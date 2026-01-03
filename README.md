@@ -1,109 +1,41 @@
----
+# RegulAI
 
-## 🚧 Project Status: **Under Construction™**
+## Introduction
 
-⚠️ **Current State:** *“It runs on my machine.”*
+RegulAI is an AI-powered application developed as part of a hackathon to demonstrate practical problem-solving using modern software engineering and artificial intelligence concepts. The project focuses on building a scalable, modular, and extensible system that integrates intelligent processing with a clean and functional user experience.
 
----
+The primary objective of RegulAI is to showcase how AI-driven features can be combined with robust backend architecture to deliver meaningful, real-world solutions within a limited development timeframe.
 
-### ❗ Warning
+This project emphasizes:
+- Clean and maintainable code structure  
+- Practical AI integration rather than theoretical models  
+- Rapid development with a focus on usability and functionality  
 
-This project is **allegedly** in active development.  
-Expect:
-
-- 💥 Breaking changes  
-- 🧩 Abandoned ideas  
-- 🔄 Spontaneous refactors  
-- 🔥 APIs that may change purely out of spite  
+RegulAI is designed to be easily extensible, allowing future improvements such as enhanced AI models, better UI interactions, API integrations, and performance optimizations.
 
 ---
 
-### 🤖 AI Reliability Disclaimer
+## Key Highlights
 
-The AI is currently held together by **dreams, hope, and the fragile belief that things will somehow work out**.
-
-- ❌ No tests  
-- ❌ No guarantees  
-
-If it produces correct output, **do not ask why** —  
-we will not survive that investigation.
+- Modular and scalable architecture  
+- AI-powered core logic for intelligent processing  
+- Focus on real-world applicability  
+- Built under hackathon constraints with production-ready practices in mind  
 
 ---
 
-### 🧠 Development Status
+## Hackathon Context
 
-Development is temporarily paused because the maintainer is:
-
-- 🧠 Mentally drained  
-- 😴 Physically exhausted  
-- 👻 Spiritually unavailable  
-
-Work will resume once my brain finishes its **cooldown cycle** and stops throwing internal exceptions.
+This project was developed during a hackathon, where the goal was to ideate, build, and deliver a functional prototype within a limited time. RegulAI reflects a balance between innovation, technical feasibility, and clarity of execution.
 
 ---
 
-### ☠️ Final Notice
+## Future Scope
 
-> **Clone at your own risk.**  
-> Issues welcome.  
-> Expectations not.
+While this version represents a working prototype, the project can be further enhanced by:
+- Improving AI accuracy and response handling  
+- Adding comprehensive error handling and validation  
+- Enhancing UI/UX for better user interaction  
+- Introducing testing, logging, and deployment pipelines  
 
----
-
-
-# RegulAI – Regulation-to-Action Engine 🇳🇵
-
-RegulAI is an AI-powered compliance platform designed to help Small and Medium Enterprises (SMEs) in Nepal navigate complex legal, tax, and regulatory requirements by converting laws into clear, actionable steps.
-
----
-
-## 🎯 Problem Statement
-
-SMEs in Nepal face:
-- Fragmented and complex legal & tax regulations  
-- Time-consuming and error-prone compliance research  
-- Missed approvals or deadlines leading to penalties and lost opportunities  
-
----
-
-## 💡 Solution Overview
-
-RegulAI simplifies compliance using AI:
-
-**Input**
-
-# RegulAI – Regulation-to-Action Engine
-
-AI-powered compliance platform for SMEs in Nepal. Converts complex legal and tax regulations into clear, actionable steps.
-
-## Monorepo Structure
-```
-regulai/
-├── backend/      # Django backend
-├── frontend/     # Next.js frontend
-├── scripts/      # System explanations
-├── docs/         # Architecture & API docs
-├── docker/       # Deployment
-└── README.md
-```
-
-## Features
-- Django REST API (JWT, PostgreSQL, modular apps)
-- Next.js dashboard (TypeScript, Tailwind CSS)
-- AI/NLP logic layer
-- Admin for regulations, rules, compliance
-- PDF checklist download
-- Environment-based settings
-
-## Setup
-See [docs/setup.md](docs/setup.md) for full instructions.
-
-## Documentation
-- [docs/architecture.md](docs/architecture.md)
-- [docs/api.md](docs/api.md)
-- [docs/env.md](docs/env.md)
-- [scripts/](scripts/) for system flows
-
-## Timestamp
-2025-12-29 (UTC)
 ---
