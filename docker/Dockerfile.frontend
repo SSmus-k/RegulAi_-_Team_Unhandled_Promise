@@ -1,0 +1,14 @@
+# Frontend Dockerfile for RegulAI
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY frontend/uifor/package*.json ./
+RUN npm install
+COPY frontend/uifor/ ./
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
