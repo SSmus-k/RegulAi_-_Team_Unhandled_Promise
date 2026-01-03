@@ -44,10 +44,10 @@ export default function ResultsPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center py-10 px-4 bg-gray-50">
-      <div className="max-w-2xl w-full bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-bold mb-4 text-blue-900">Compliance Checklist</h2>
-        <div className="mb-4 text-gray-700">
+    <main className="min-h-screen flex flex-col items-center py-10 px-4 bg-linear-to-br from-[#0f172a] via-[#1e293b] to-[#312e81]">
+      <div className="max-w-2xl w-full bg-white/10 p-6 rounded shadow">
+        <h2 className="text-xl font-bold mb-4 text-white">Compliance Checklist</h2>
+        <div className="mb-4 text-gray-300">
           <strong>Business Type:</strong> {params.get('businessType')}<br />
           <strong>Action:</strong> {params.get('action')}
         </div>

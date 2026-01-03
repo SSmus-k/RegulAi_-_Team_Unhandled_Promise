@@ -43,19 +43,19 @@ export default function ComplianceForm() {
         <h2 className="text-xl font-bold mb-4 text-white">Compliance Check</h2>
         <label className="block mb-2 font-medium">Business Type</label>
         <select
-          className="w-full mb-4 bg-white/10 p-2 border rounded"
+          className="w-full mb-4 bg-gray-800 p-2 border rounded"
           value={businessType}
           onChange={e => setBusinessType(e.target.value)}
           required
         >
-          <option className='bg-white/10' value="">Select type</option>
+          <option className='' value="">Select type</option>
           {businessTypes.map(type => (
             <option key={type} value={type}>{type}</option>
           ))}
         </select>
         <label className="block mb-2 font-medium">Intended Action</label>
         <select
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-4 p-2 bg-gray-800 border rounded"
           value={action}
           onChange={e => setAction(e.target.value)}
           required
