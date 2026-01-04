@@ -42,3 +42,6 @@ Thumbs.db
 .swo
 .bak
 .tmp
+
+# Data files
+backend/core/data/answers.jsonl
