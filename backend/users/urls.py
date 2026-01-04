@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import UserListCreateView
+from .views import UserListCreateView, MyBusinessesView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -14,4 +14,5 @@ class MeView(APIView):
 urlpatterns = [
     path('', UserListCreateView.as_view(), name='user-list-create'),
     path('me/', MeView.as_view(), name='user-me'),
+    path('businesses/', MyBusinessesView.as_view(), name='my-businesses'),
 ]
