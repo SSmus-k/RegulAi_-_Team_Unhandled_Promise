@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthForm from '../../../components/AuthForm';
 import { signup, login } from '../../../services/auth';
@@ -11,10 +11,11 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  if (token) {
-    router.replace('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [token, router]);
 
   async function handleSignup({ username, password, email }: { username: string; password: string; email?: string }) {
     setLoading(true);

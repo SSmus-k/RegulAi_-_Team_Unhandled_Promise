@@ -24,7 +24,7 @@ export default function Sidebar() {
           {navItems.map(({ label, href, icon: Icon }) => (
             <li key={href}>
               <Link href={href} className={`flex items-center gap-3 px-6 py-3 transition font-medium text-sm ${pathname === href ? 'bg-cyan-700/80 text-white shadow-lg' : 'text-cyan-100 hover:bg-cyan-900/40 hover:text-white'}`}>
-                <Icon className="w-5 h-5" />
+                <Icon className="size-5" />
                 {label}
               </Link>
             </li>

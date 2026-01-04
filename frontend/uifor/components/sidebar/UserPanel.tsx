@@ -18,17 +18,26 @@ useEffect(() => {
   if(!token) router.replace('/auth/login')
 
     async function getUser(){
-      const res = await fetch("http://localhost:8000/api/v1/users/me",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`
+try {
+        const res = await fetch("http://localhost:8000/api/v1/users/me",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      )
+        )
 
-      const data: User = await res.json()
-      setUser(data)
+        if(!res.ok){
+          router.replace('/')
+        }
+  
+        const data: User = await res.json()
+        console.log(data)
+        setUser(data)
+} catch (error) {
+  console.log(error)
+}
 
     }
 

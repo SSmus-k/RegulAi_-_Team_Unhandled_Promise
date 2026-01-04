@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthForm from '../../../components/AuthForm';
 import { login } from '../../../services/auth';
@@ -11,9 +11,11 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  if (token) {
-    router.replace('/dashboard');
-  }
+  useEffect(() => {
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [token, router]);
 
   async function handleLogin({ username, password }: { username: string; password: string }) {
     setLoading(true);

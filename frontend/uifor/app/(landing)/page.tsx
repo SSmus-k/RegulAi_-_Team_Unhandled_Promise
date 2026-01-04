@@ -23,9 +23,7 @@ export default function Home() {
            }
          }
        )
-       if(res.ok){
-         router.replace('/dashboard')
-       }else{
+    if(!res.ok){
         localStorage.removeItem("jwt")
         router.replace("/")
        }
