@@ -23,9 +23,11 @@ export default function LoginPage() {
     try {
       const data = await login(username, password);
       localStorage.setItem('jwt', data.access);
+      localStorage.setItem('jwt_refresh', data.refresh); // save refresh token too
       router.replace('/dashboard');
-    } catch (e: any) {
-      setError(e.message || 'Login failed');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Login failed. Please try again.';
+      setError(message);
     } finally {
       setLoading(false);
     }
