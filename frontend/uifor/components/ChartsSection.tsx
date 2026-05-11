@@ -1,4 +1,5 @@
 import { Bar, Line } from 'react-chartjs-2';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +10,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 export default function ChartsSection() {
   // Mock data

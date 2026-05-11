@@ -1,4 +1,5 @@
 import { Line, Bar, Doughnut } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +11,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  Filler,
 } from "chart.js";
 
 ChartJS.register(
@@ -21,7 +23,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
+  Filler
 );
 
 export default function ReportCharts({ dateRange }: { dateRange: string }) {
