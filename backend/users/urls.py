@@ -1,15 +1,5 @@
 from django.urls import path
-
-from .views import UserListCreateView, MyBusinessesView
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer
-
-class MeView(APIView):
-    permission_classes = [IsAuthenticated]
-    def get(self, request):
-        return Response(UserSerializer(request.user).data)
+from .views import UserListCreateView, MyBusinessesView, MeView
 
 urlpatterns = [
     path('', UserListCreateView.as_view(), name='user-list-create'),

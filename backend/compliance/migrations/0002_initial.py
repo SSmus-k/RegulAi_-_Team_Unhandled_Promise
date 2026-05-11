@@ -7,7 +7,9 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    initial = True
+    # Removed `initial = True` — only 0001_initial.py should carry this flag.
+    # Having two migrations with initial=True in the same app causes unpredictable
+    # behavior on fresh database installs.
 
     dependencies = [
         ('compliance', '0001_initial'),

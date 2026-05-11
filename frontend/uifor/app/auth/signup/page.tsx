@@ -22,12 +22,15 @@ export default function SignupPage() {
     setError('');
     try {
       await signup(username, email || '', password);
-      // Auto-login after signup
+
+      // Auto-login after successful signup
       const data = await login(username, password);
       localStorage.setItem('jwt', data.access);
+      localStorage.setItem('jwt_refresh', data.refresh); // save refresh token too
       router.replace('/dashboard');
-    } catch (e: any) {
-      setError(e.message || 'Signup failed');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Signup failed. Please try again.';
+      setError(message);
     } finally {
       setLoading(false);
     }
