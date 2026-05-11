@@ -42,7 +42,17 @@ class DashboardMetric(models.Model):
 
 class Meta:
     unique_together = ('business', 'metric_key', 'period_label')
-        
+
+class CompanyHistoryDocument(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    filename = models.CharField(max_length=255)
+    description = models.CharField(max_length=500, blank=True)
+    file = models.FileField(upload_to='company_history/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} — {self.filename}"
+           
 def __str__(self):
         return f"{self.label or self.original_filename} ({self.user})"
     

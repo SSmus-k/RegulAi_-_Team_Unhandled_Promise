@@ -5,6 +5,7 @@ from users.models import User
 class ComplianceChecklist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     business_action = models.CharField(max_length=100)
+    business_type = models.CharField(max_length=100, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -31,7 +31,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           setChecking(false)
         } catch (error) {
-          console.log(error)
+          console.error(error);
+          router.replace('/auth/login'); // treat network failure as unauthenticated
+          setChecking(false);
         }
       }
   

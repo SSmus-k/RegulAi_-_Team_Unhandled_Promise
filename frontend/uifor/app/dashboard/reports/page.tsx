@@ -8,6 +8,7 @@ import GrowthMetrics from "../../../components/reports/GrowthMetrics";
 import FinancialSummary from "../../../components/reports/FinancialSummary";
 import ExecutiveSummary from "../../../components/reports/ExecutiveSummary";
 import ReportFilters from "../../../components/reports/ReportFilters";
+import CompanyHistoryUploader from "../../../components/CompanyHistoryUploader";
 
 export default function ReportsPage() {
   const [dateRange, setDateRange] = useState("monthly");
@@ -41,6 +42,7 @@ export default function ReportsPage() {
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition"
           >
             ⬇️ Export PDF
+            <CompanyHistoryUploader />
           </button>
         </div>
       </div>

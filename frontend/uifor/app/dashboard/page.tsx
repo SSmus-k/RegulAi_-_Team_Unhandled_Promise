@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import LineChartCard from "../../components/charts/LineChartCard";
 import BarChartCard from "../../components/charts/BarChartCard";
 import RadialChartCard from "../../components/charts/RadialChartCard";
-
+import { API_URL } from '../../lib/api';
 export default function DashboardPage() {
   const [stats, setStats] = useState({
     totalBusinesses: 0,
@@ -14,10 +14,10 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("jwt");
     Promise.all([
-      fetch("http://127.0.0.1:8000/api/v1/users/me/businesses/", { headers: { Authorization: `Bearer ${token}` } }),
-      fetch("http://127.0.0.1:8000/api/v1/compliance/", { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${API_URL}/users/me/businesses/`, { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${API_URL}/compliance/`, { headers: { Authorization: `Bearer ${token}` } })
     ])
       .then(([bizRes, compRes]) => Promise.all([bizRes.json(), compRes.json()]))
       .then(([bizData, compData]) => {
@@ -30,6 +30,9 @@ export default function DashboardPage() {
           alerts: steps.filter((s: any) => s.status === "overdue").length,
         });
       })
+      .catch(() => {
+  // stats stay at 0, which is acceptable fallback
+})
       .finally(() => setLoading(false));
   }, []);
 

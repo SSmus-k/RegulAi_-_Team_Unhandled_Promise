@@ -26,7 +26,7 @@ export default function ReportUploader({ onReportLoaded }: Props) {
     formData.append("file", file);
     formData.append("label", file.name);
 
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("jwt");
     try {
       const res = await fetch("/api/v1/apps/reports/upload/", {
         method: "POST",
