@@ -1,18 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { authApi } from "@/services/api";
 
 import LineChartCard from "../../components/charts/LineChartCard";
 import BarChartCard from "../../components/charts/BarChartCard";
 import RadialChartCard from "../../components/charts/RadialChartCard";
 
-const summaryCards = [
-  { label: "Total Businesses", value: 3, accent: "from-cyan-500 to-blue-700", icon: "🏢" },
-  { label: "Pending Compliance", value: 2, accent: "from-yellow-400 to-yellow-700", icon: "⏳" },
-  { label: "Approvals in Progress", value: 1, accent: "from-purple-500 to-indigo-700", icon: "🔄" },
-  { label: "Alerts / Deadlines", value: 1, accent: "from-pink-500 to-red-700", icon: "⚠️" },
-];
+
 
 const insights = [
   { type: "alert", text: "Upcoming deadline: Tax filing by Jan 15." },
@@ -21,6 +17,22 @@ const insights = [
 ];
 
 export default function DashboardPage() {
+  const [totalBusiness, setTotalBusiness] = useState(0)
+  const summaryCards = [
+  { label: "Total Businesses", value: totalBusiness, accent: "from-cyan-500 to-blue-700", icon: "🏢" },
+  { label: "Pending Compliance", value: 2, accent: "from-yellow-400 to-yellow-700", icon: "⏳" },
+  { label: "Approvals in Progress", value: 1, accent: "from-purple-500 to-indigo-700", icon: "🔄" },
+  { label: "Alerts / Deadlines", value: 1, accent: "from-pink-500 to-red-700", icon: "⚠️" },
+];
+
+useEffect(() => {
+  const fetchDashboardData = async() => {
+    const res = await authApi.get("/business/dashboard/")
+    setTotalBusiness(res.data.data.total_business)
+  }
+  fetchDashboardData()
+}, [])
+
   return (
     <div className="flex flex-col gap-8">
       {/* Top Summary Cards */}
