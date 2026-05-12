@@ -36,3 +36,15 @@ services:
       - ../frontend/uifor:/app
 volumes:
   postgres_data:
+nginx:
+  image: nginx:latest
+  container_name: nginx
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    - ./certs:/etc/ssl/certs
+  depends_on:
+    - backend
+    - frontend

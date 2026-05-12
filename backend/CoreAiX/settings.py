@@ -11,6 +11,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+#__sentry install
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),  # keep DSN in .env
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,       # performance monitoring
+    send_default_pii=True,        # capture user info
+)
+
+
 ENV = os.getenv('DJANGO_ENV', 'development')
 DEBUG = ENV == 'development'
 
@@ -37,6 +49,17 @@ INSTALLED_APPS = [
     'apps',
     'core',   # was missing — caused core views/migrations to be ignored entirely
 ]
+
+# Extra Security layer Added
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
