@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import UserBusinessesListView
+from .views import UserBusinessesListView, BusinessDetailView, DashboardView
 
 urlpatterns = [
-    path('user/<int:user_id>/businesses/', UserBusinessesListView.as_view(), name='user-businesses-list'),
+    path('', UserBusinessesListView.as_view(), name='user-businesses-list'),
+    path('<int:pk>/', BusinessDetailView.as_view(), name='businesses-detail'),
+    path('dashboard/', DashboardView.as_view())
 ]

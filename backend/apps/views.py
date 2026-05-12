@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
 from .models import Business
 from .serializers import BusinessSerializer
@@ -37,3 +37,27 @@ class UserBusinessesListView(generics.ListCreateAPIView):
                 "message": "Businesses fetched successfully.",
             }
         )
+    
+class BusinessDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BusinessSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Business.objects.filter(user=self.request.user)
+    
+
+class DashboardView(views.APIView):
+    serializer_class = BusinessSerializer
+
+    def get(self, request):
+        total_business = Business.objects.filter(
+            user=request.user,   
+        ).count()
+
+        return Response({
+            "success": True,
+            "message": "Fetched successfully.",
+            "data": {
+                "total_business": total_business
+            }
+        })

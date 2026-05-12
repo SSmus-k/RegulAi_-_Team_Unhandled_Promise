@@ -1,67 +1,28 @@
 "use client";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, MapPin, Phone, Globe, ChevronRight } from "lucide-react";
+import { authApi } from "@/services/api";
 
 interface Business {
   id: string;
   name: string;
   type: string;
   industry: string;
-  registrationNumber: string;
+  registration_number: string;
   location: string;
   phone: string;
   website?: string;
   status: "active" | "pending" | "inactive";
   employees: number;
   revenue: string;
-  registrationDate: string;
+  registration_date: string;
 }
 
+
+
 export default function MyBusinessesPage() {
-  const [businesses, setBusinesses] = useState<Business[]>([
-    {
-      id: "1",
-      name: "TechFlow Solutions",
-      type: "Private Limited",
-      industry: "Software Development",
-      registrationNumber: "PAN001234567",
-      location: "Kathmandu, Nepal",
-      phone: "+977-1-5555555",
-      website: "www.techflow.com",
-      status: "active",
-      employees: 45,
-      revenue: "50-100M NPR",
-      registrationDate: "2020-03-15",
-    },
-    {
-      id: "2",
-      name: "Nepal Trade Pvt Ltd",
-      type: "Private Limited",
-      industry: "Import-Export",
-      registrationNumber: "PAN001234568",
-      location: "Lalitpur, Nepal",
-      phone: "+977-1-4444444",
-      website: "www.nepaltrade.com",
-      status: "active",
-      employees: 28,
-      revenue: "30-50M NPR",
-      registrationDate: "2019-06-20",
-    },
-    {
-      id: "3",
-      name: "Creative Agency Hub",
-      type: "Partnership",
-      industry: "Marketing & Design",
-      registrationNumber: "PAN001234569",
-      location: "Bhaktapur, Nepal",
-      phone: "+977-1-6666666",
-      website: "www.creativeagency.com",
-      status: "pending",
-      employees: 12,
-      revenue: "10-30M NPR",
-      registrationDate: "2023-01-10",
-    },
-  ]);
+  const [businesses, setBusinesses] = useState<Business[]>([]);
 
   const [showModal, setShowModal] = useState(false);
   const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
@@ -69,7 +30,7 @@ export default function MyBusinessesPage() {
     name: "",
     type: "",
     industry: "",
-    registrationNumber: "",
+    registration_number: "",
     location: "",
     phone: "",
     website: "",
@@ -77,84 +38,131 @@ export default function MyBusinessesPage() {
     revenue: "",
   });
 
-  const handleAddBusiness = () => {
+  const revenueMap = {
+  "0_10": "0M - 10M NPR",
+  "10_30": "10M - 30M NPR",
+  "30_50": "30M - 50M NPR",
+  "50_100": "50M - 100M NPR",
+  "100+": "100M+ NPR",
+};
+
+const businessTypeMap = {
+  "private_limited" : "Private Limited",
+  "public_limited" : "Public Limited",
+  "partnership" : "Partnership",
+  "sole_proprietorship" : "Sole Proprietorship"
+}
+
+useEffect(() => {
+  const fetchBusiness = async() => {
+    const res = await authApi.get("/business/")
+    setBusinesses(res.data.data)
+  }
+
+    fetchBusiness()
+},[])
+
+const handleAddBusiness = () => {
+  setEditingBusiness(null);
+
+  setFormData({
+    name: "",
+    type: "",
+    industry: "",
+    registration_number: "",
+    location: "",
+    phone: "",
+    website: "",
+    employees: "",
+    revenue: "",
+  });
+
+  setShowModal(true);
+};
+
+const handleEditBusiness = (business: Business) => {
+  setEditingBusiness(business);
+
+  setFormData({
+    name: business.name,
+    type: business.type,
+    industry: business.industry,
+    registration_number: business.registration_number,
+    location: business.location,
+    phone: business.phone,
+    website: business.website || "",
+    employees: String(business.employees ?? ""),
+    revenue: business.revenue,
+  });
+
+  setShowModal(true);
+};
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const payload = {
+    ...formData,
+    employees: Number(formData.employees),
+  };
+
+  try {
+    if (editingBusiness) {
+      const res = await authApi.patch(
+        `/business/${editingBusiness.id}/`,
+        payload
+      );
+
+
+      setBusinesses((prev) =>
+        prev.map((b) =>
+          b.id === editingBusiness.id
+            ? res.data
+            : b
+        )
+      );
+    } else {
+      const res = await authApi.post(
+        "/business/",
+        payload
+      );
+
+      setBusinesses((prev) => [
+        ...prev,
+        res.data.data,
+      ]);
+    }
+
+    setShowModal(false);
+
     setEditingBusiness(null);
+
     setFormData({
       name: "",
       type: "",
       industry: "",
-      registrationNumber: "",
+      registration_number: "",
       location: "",
       phone: "",
       website: "",
       employees: "",
       revenue: "",
     });
-    setShowModal(true);
-  };
 
-  const handleEditBusiness = (business: Business) => {
-    setEditingBusiness(business);
-    setFormData({
-      name: business.name,
-      type: business.type,
-      industry: business.industry,
-      registrationNumber: business.registrationNumber,
-      location: business.location,
-      phone: business.phone,
-      website: business.website || "",
-      employees: business.employees.toString(),
-      revenue: business.revenue,
-    });
-    setShowModal(true);
-  };
+  } catch (error: any) {
+    console.log(
+      error.response?.data || error.message
+    );
+  }
+};
 
-  const handleDeleteBusiness = (id: string) => {
+  const handleDeleteBusiness = async (id: string) => {
     if (confirm("Are you sure you want to delete this business?")) {
+      await authApi.delete(`/business/${id}/`)
       setBusinesses(businesses.filter((b) => b.id !== id));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingBusiness) {
-      setBusinesses(
-        businesses.map((b) =>
-          b.id === editingBusiness.id
-            ? {
-                ...b,
-                name: formData.name,
-                type: formData.type,
-                industry: formData.industry,
-                registrationNumber: formData.registrationNumber,
-                location: formData.location,
-                phone: formData.phone,
-                website: formData.website,
-                employees: parseInt(formData.employees) || 0,
-                revenue: formData.revenue,
-              }
-            : b
-        )
-      );
-    } else {
-      const newBusiness: Business = {
-        id: Date.now().toString(),
-        name: formData.name,
-        type: formData.type,
-        industry: formData.industry,
-        registrationNumber: formData.registrationNumber,
-        location: formData.location,
-        phone: formData.phone,
-        website: formData.website,
-        status: "pending",
-        employees: parseInt(formData.employees) || 0,
-        revenue: formData.revenue,
-        registrationDate: new Date().toISOString().split("T")[0],
-      };
-      setBusinesses([...businesses, newBusiness]);
-    }
-    setShowModal(false);
-  };
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
@@ -232,7 +240,7 @@ export default function MyBusinessesPage() {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-white">{business.name}</h3>
-                  <p className="text-sm text-cyan-300">{business.type}</p>
+                  <p className="text-sm text-cyan-300">{businessTypeMap[business.type]}</p>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(business.status)}`}>
                   {business.status.charAt(0).toUpperCase() + business.status.slice(1)}
@@ -247,7 +255,7 @@ export default function MyBusinessesPage() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 mb-1">Registration Number</p>
-                  <p className="text-sm text-white font-medium font-mono">{business.registrationNumber}</p>
+                  <p className="text-sm text-white font-medium font-mono">{business.registration_number}</p>
                 </div>
               </div>
 
@@ -279,13 +287,13 @@ export default function MyBusinessesPage() {
                 </div>
                 <div className="bg-white/5 rounded-lg p-3">
                   <p className="text-xs text-gray-400">Revenue</p>
-                  <p className="text-sm font-bold text-cyan-200">{business.revenue}</p>
+                  <p className="text-sm font-bold text-cyan-200">{revenueMap[business.revenue]}</p>
                 </div>
               </div>
 
               {/* Registration Date */}
               <p className="text-xs text-gray-500 mb-4">
-                Registered on {new Date(business.registrationDate).toLocaleDateString()}
+                Registered on {new Date(business.registration_date).toLocaleDateString()}
               </p>
 
               {/* Actions */}
@@ -344,10 +352,10 @@ export default function MyBusinessesPage() {
                     required
                   >
                     <option value="">Select type</option>
-                    <option value="Sole Proprietorship">Sole Proprietorship</option>
-                    <option value="Partnership">Partnership</option>
-                    <option value="Private Limited">Private Limited</option>
-                    <option value="Public Limited">Public Limited</option>
+                    <option value="sole_proprietorship">Sole Proprietorship</option>
+                    <option value="partnership">Partnership</option>
+                    <option value="private_limited">Private Limited</option>
+                    <option value="public_limited">Public Limited</option>
                   </select>
                 </div>
 
@@ -367,8 +375,8 @@ export default function MyBusinessesPage() {
                   <label className="block text-sm font-medium text-cyan-200 mb-2">Registration Number *</label>
                   <input
                     type="text"
-                    value={formData.registrationNumber}
-                    onChange={(e) => setFormData({ ...formData, registrationNumber: e.target.value })}
+                    value={formData.registration_number}
+                    onChange={(e) => setFormData({ ...formData, registration_number: e.target.value })}
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
                     placeholder="e.g., PAN123456789"
                     required
@@ -431,11 +439,11 @@ export default function MyBusinessesPage() {
                     required
                   >
                     <option value="">Select revenue range</option>
-                    <option value="0-10M NPR">0 - 10M NPR</option>
-                    <option value="10-30M NPR">10 - 30M NPR</option>
-                    <option value="30-50M NPR">30 - 50M NPR</option>
-                    <option value="50-100M NPR">50 - 100M NPR</option>
-                    <option value="100M+ NPR">100M+ NPR</option>
+                    <option value="0_10">0 - 10M NPR</option>
+                    <option value="10_30">10 - 30M NPR</option>
+                    <option value="30_50">30 - 50M NPR</option>
+                    <option value="50_100">50 - 100M NPR</option>
+                    <option value="100+">100M+ NPR</option>
                   </select>
                 </div>
               </div>

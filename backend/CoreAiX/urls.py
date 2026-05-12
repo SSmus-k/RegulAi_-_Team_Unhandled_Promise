@@ -30,4 +30,5 @@ urlpatterns = [
     path('api/v1/compliance/', include('compliance.urls')),
     path('api/v1/regulations/', include('regulations.urls')),
     path('api/v1/core/', include('core.urls')),
+    path('api/v1/business/', include('apps.urls'))
 ]
